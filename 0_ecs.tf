@@ -126,6 +126,25 @@ resource "aws_ecs_task_definition" "sheepit-backend" {
   family                = "sheepit-backend"
   container_definitions = "${file("task_definitions/sheepit-backend.json")}"
   network_mode = "bridge"
+
+  volume {
+    name      = "sheepit-volume"
+    docker_volume_configuration {
+      autoprovision = true
+      scope = "shared"
+      driver = "local"
+    }
+  }
+
+  volume {
+    name      = "mongo-volume"
+    docker_volume_configuration {
+      autoprovision = true
+      scope = "shared"
+      driver = "local"
+    }
+  }
+
   placement_constraints {
     type       = "memberOf"
     expression = "attribute:ecs.availability-zone in [eu-west-1a, eu-west-1b]"

@@ -18,14 +18,21 @@
             },
             {
                 "name": "BASE_URL",
-                "value": "http://<<ECS_ADDRESS>>:80/"
+                "value": "http://<<EC2_PUBLIC_IP>>:80/"
             },
             {
                 "name": "Mongo:ConnectionString",
-                "value": "mongodb://root:example@<<ECS_ADDRESS>>:27017"
+                "value": "mongodb://root:example@<<EC2_PUBLIC_IP>>:27017"
             }
         ],
-        "essential": true
+        "essential": true,
+        "mountPoints": [
+            {
+              "readOnly": null,
+              "containerPath": "/data",
+              "sourceVolume": "sheepit-volume"
+            }
+        ]
     },
     {
         "name": "mongodb-backend",
@@ -49,6 +56,13 @@
                 "value": "example"
             }
         ],
-        "essential": true
+        "essential": true,
+        "mountPoints": [
+            {
+              "readOnly": null,
+              "containerPath": "/data/db",
+              "sourceVolume": "mongo-volume"
+            }
+        ]
     }
 ]
